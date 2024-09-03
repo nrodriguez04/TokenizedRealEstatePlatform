@@ -11,13 +11,15 @@ contract MultiChainBridge is Ownable {
     event TokensLocked(address indexed from, uint256 amount, uint256 toChainId, bytes32 transactionId);
     event TokensUnlocked(address indexed to, uint256 amount, uint256 fromChainId, bytes32 transactionId);
 
+    constructor() Ownable(msg.sender) {}
+
     function setChainToken(uint256 _chainId, address _tokenAddress) public onlyOwner {
         chainToToken[_chainId] = _tokenAddress;
     }
 
     function lockTokens(uint256 _amount, uint256 _toChainId) public {
         require(chainToToken[_toChainId] != address(0), "Destination chain not supported");
-        
+
         IERC20 token = IERC20(chainToToken[block.chainid]);
         require(token.transferFrom(msg.sender, address(this), _amount), "Transfer failed");
 

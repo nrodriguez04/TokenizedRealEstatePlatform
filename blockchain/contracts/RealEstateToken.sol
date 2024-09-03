@@ -16,7 +16,7 @@ contract RealEstateToken is ERC20, Ownable {
     mapping(string => Property) public properties;
     mapping(address => mapping(string => uint256)) public userTokens;
 
-    constructor() ERC20("RealEstateToken", "RET") {}
+    constructor() ERC20("RealEstateToken", "RET") Ownable(msg.sender) {}
 
     function addProperty(
         string memory _id,
